@@ -553,7 +553,7 @@ else
             }
 
             // Link for managing new participants
-            if($row['mem_leader'] == 1)
+            if($row['mem_leader'] == 1 || ($gValidLogin && $gCurrentUser->manageRoles()))
             {
                 $buttonURL = $g_root_path.'/adm_program/modules/lists/members_assignment.php?rol_id='.$date->getValue('dat_rol_id');
 
