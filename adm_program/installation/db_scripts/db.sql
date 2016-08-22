@@ -173,6 +173,8 @@ create table %PREFIX%_dates
     dat_country                    varchar(100),
     dat_headline                   varchar(100)  not null,
     dat_max_members                integer       not null default 0,
+    dat_deadline                   timestamp     null default null,
+    dat_late_registration          boolean       not null default '0',
     dat_usr_id_create              integer       unsigned,
     dat_timestamp_create           timestamp     not null default CURRENT_TIMESTAMP,
     dat_usr_id_change              integer       unsigned,

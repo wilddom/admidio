@@ -123,6 +123,7 @@ if($getMode === 1 || $getMode === 5)  // Neuen Termin anlegen/aendern
         $midnightDateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-01 00:00:00');
         $_POST['date_from_time'] = $midnightDateTime->format($gPreferences['system_time']);
         $_POST['date_to_time']   = $midnightDateTime->format($gPreferences['system_time']);
+        $_POST['date_deadline_time']   = $midnightDateTime->format($gPreferences['system_time']);
         $date->setValue('dat_all_day', 1);
     }
     else
@@ -235,6 +236,41 @@ if($getMode === 1 || $getMode === 5)  // Neuen Termin anlegen/aendern
     if(!is_numeric($_POST['dat_max_members']))
     {
         $_POST['dat_max_members'] = 0;
+    }
+
+    if(!isset($_POST['dat_late_registration']))
+    {
+        $_POST['dat_late_registration'] = 0;
+    }
+
+    if($_POST['date_registration_possible'] == 1)
+    {
+        if(strlen($_POST['date_deadline_time']) === 0)
+        {
+            $midnightDateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-01 00:00:00');
+            $_POST['date_deadline_time'] = $midnightDateTime->format($gPreferences['system_time']);
+        }
+
+        $deadlineDateTime = DateTime::createFromFormat($gPreferences['system_date'].' '.$gPreferences['system_time'], $_POST['date_deadline'].' '.$_POST['date_deadline_time']);
+        if(!$deadlineDateTime)
+        {
+            $deadlineDateTime = DateTime::createFromFormat($gPreferences['system_date'], $_POST['date_deadline']);
+        }
+
+        if(!$deadlineDateTime || $deadlineDateTime > $startDateTime)
+        {
+            $date->setValue('dat_deadline', null);
+        }
+        else
+        {
+            $date->setValue('dat_deadline', $deadlineDateTime->format('Y-m-d H:i:s'));
+        }
+
+        // now write date and time with database format to date object
+    }
+    else {
+        $date->setValue('dat_deadline', null);
+        $_POST['dat_late_registration'] = 0;
     }
 
     // make html in description secure

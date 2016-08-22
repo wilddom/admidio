@@ -294,6 +294,7 @@ else
         $outputLinkRoom      = '';
         $outputNumberMembers = '';
         $outputNumberLeaders = '';
+        $outputDeadline      = '';
         $dateElements        = array();
         $participantsArray   = array();
 
@@ -434,6 +435,17 @@ else
             if($getView === 'participants')
             {
                 $participantsArray = $participants->getParticipantsArray($date->getValue('dat_rol_id'));
+            }
+        }
+
+        if(!empty($date->getValue('dat_deadline')))
+        {
+            if ($date->getValue('dat_all_day') == 0)
+            {
+                $outputDeadline = $date->getValue('dat_deadline', $gPreferences['system_date'].' '.$gPreferences['system_time']);
+            }
+            else {
+                $outputDeadline = $date->getValue('dat_deadline', $gPreferences['system_date']);
             }
         }
 
@@ -579,6 +591,10 @@ else
             if($outputLinkRoom !== '')
             {
                 $dateElements[] = array($gL10n->get('SYS_ROOM'), $outputLinkRoom);
+            }
+            if($outputDeadline !== '')
+            {
+                $dateElements[] = array($gL10n->get('DAT_DEADLINE'), '<strong>'.$outputDeadline.'</strong>');
             }
             if($outputNumberLeaders !== '')
             {

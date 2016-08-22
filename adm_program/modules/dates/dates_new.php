@@ -154,9 +154,11 @@ $page->addJavascript('
         if ($("#dat_all_day:checked").val() !== undefined) {
             $("#date_from_time").hide();
             $("#date_to_time").hide();
+            $("#date_deadline_time").hide();
         } else {
             $("#date_from_time").show("slow");
             $("#date_to_time").show("slow");
+            $("#date_deadline_time").show("slow");
         }
     }
 
@@ -166,11 +168,15 @@ $page->addJavascript('
             $("#dat_max_members_group").show("slow");
             $("#date_right_list_view_group").show("slow");
             $("#date_right_send_mail_group").show("slow");
+            $("#date_deadline_group").show("slow");
+            $("#dat_late_registration_group").show("slow");
         } else {
             $("#date_current_user_assigned_group").hide();
             $("#dat_max_members_group").hide();
             $("#date_right_list_view_group").hide();
             $("#date_right_send_mail_group").hide();
+            $("#date_deadline_group").hide();
+            $("#dat_late_registration_group").hide();
         }
     }
 
@@ -308,6 +314,8 @@ $form->openGroupBox('gb_visibility_registration', $gL10n->get('DAT_VISIBILITY').
     $form->addCheckbox('date_current_user_assigned', $gL10n->get('DAT_PARTICIPATE_AT_DATE'), $dateCurrentUserAssigned, array('helpTextIdLabel' => 'DAT_PARTICIPATE_AT_DATE_DESC'));
     $form->addInput('dat_max_members', $gL10n->get('DAT_PARTICIPANTS_LIMIT'), $date->getValue('dat_max_members'),
                     array('type' => 'number', 'minNumber' => 0, 'maxNumber' => 99999, 'helpTextIdLabel' => 'DAT_MAX_MEMBERS'));
+    $form->addInput('date_deadline', $gL10n->get('DAT_DEADLINE'), $date->getValue('dat_deadline', $gPreferences['system_date'].' '.$gPreferences['system_time']), array('type' => 'datetime'));
+    $form->addCheckbox('dat_late_registration', $gL10n->get('DAT_LATE_REGISTRATION'), $date->getValue('dat_late_registration'), array('helpTextIdLabel' => 'DAT_LATE_REGISTRATION_DESC'));
     $form->addCheckbox('date_right_list_view', $gL10n->get('DAT_RIGHT_VIEW_PARTICIPANTS'), $role->getValue('rol_this_list_view'));
     $form->addCheckbox('date_right_send_mail', $gL10n->get('DAT_RIGHT_MAIL_PARTICIPANTS'), $role->getValue('rol_mail_this_role'));
 

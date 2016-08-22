@@ -46,6 +46,7 @@
     <string name="DAT_DATE">Termin</string>
     <string name="DAT_DATES">Termine</string>
     <string name="DAT_DATES_DESC">Termine können hier angelegt und angeschaut werden. Benutzer können sich auf Wunsch zu diesen Terminen anmelden.</string>
+    <string name="DAT_DEADLINE">Deadline</string>
     <string name="DAT_EDIT_CALENDAR_DESC">Hier können Kalender angelegt und bearbeitet werden.</string>
     <string name="DAT_EDIT_ROOMS">Räume bearbeiten</string>
     <string name="DAT_EDIT_ROOMS_DESC">Hier können Räume für Veranstaltungen angelegt und bearbeitet werden.</string>
@@ -65,6 +66,8 @@
     <string name="DAT_ICAL_DAYS_FUTURE_DESC">Gibt an, wie viele Tage in die Zukunft in einem iCal-Download oder -Abo einbezogen werden. (Standard: 365)</string>
     <string name="DAT_ICAL_DAYS_PAST">Anzahl iCal Tage Vergangenheit</string>
     <string name="DAT_ICAL_DAYS_PAST_DESC">Gibt an, wie viele Tage aus der Vergangenheit in einem iCal-Download oder -Abo einbezogen werden.  (Standard: 30)</string>
+    <string name="DAT_LATE_REGISTRATION">Anmeldungen nach Deadline</string>
+    <string name="DAT_LATE_REGISTRATION_DESC">Wenn diese Option aktiviert ist, werden Anmeldungen auch nach der Deadline akzeptiert.</string>
     <string name="DAT_LOCATION">Ort</string>
     <string name="DAT_LOCATION_LINK">Werden genügend Informationen (Straße, Stadt, Lokalität) zum Ort des Termins eingegeben, so kann ein Link bzw. eine Route zu diesem Treffpunkt über Google-Maps erstellt werden.</string>
     <string name="DAT_LOGIN_POSSIBLE">Hier kann ausgewählt werden, ob eine Anmeldung zu dem angegebenen Termin möglich sein soll oder nicht.\nFalls die Anmeldung nachträglich gelöscht wird, werden auch alle bisherigen Teilnehmer vom Termin entfernt.\nWenn man hingegen nur die Anmeldung für neue Teilnehmer beenden möchte, so kann man die derzeitige Teilnehmerzahl als Teilnahmebegrenzung eintragen.</string>
