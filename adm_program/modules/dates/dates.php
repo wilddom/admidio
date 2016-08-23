@@ -607,7 +607,14 @@ else
             }
             if($outputNumberMembers !== '')
             {
-                $dateElements[] = array($gL10n->get('SYS_PARTICIPANTS'), '<strong>'.$outputNumberMembers.'</strong>');
+                if($date->getValue('dat_max_members') > 0)
+                {
+                    $dateElements[] = array($gL10n->get('SYS_PARTICIPANTS'), '<strong>'.$outputNumberMembers.' / '.$date->getValue('dat_max_members').'</strong>');
+                }
+                else
+                {
+                    $dateElements[] = array($gL10n->get('SYS_PARTICIPANTS'), '<strong>'.$outputNumberMembers.'</strong>');
+                }
             }
 
             // show panel view of events
