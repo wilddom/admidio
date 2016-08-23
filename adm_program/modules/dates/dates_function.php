@@ -532,6 +532,10 @@ elseif($getMode === 2)  // Termin loeschen
 }
 elseif($getMode === 3)  // Benutzer zum Termin anmelden
 {
+    if (!$date->isParticipationPossible())
+    {
+        $gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
+    }
     $member = new TableMembers($gDb);
     $member->startMembership($date->getValue('dat_rol_id'), $gCurrentUser->getValue('usr_id'));
 
@@ -541,6 +545,10 @@ elseif($getMode === 3)  // Benutzer zum Termin anmelden
 }
 elseif($getMode === 4)  // Benutzer vom Termin abmelden
 {
+    if (!$date->isCancelationPossible())
+    {
+        $gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
+    }
     $member = new TableMembers($gDb);
     $member->deleteMembership($date->getValue('dat_rol_id'), $gCurrentUser->getValue('usr_id'));
 

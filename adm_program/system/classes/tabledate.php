@@ -416,4 +416,69 @@ class TableDate extends TableAccess
 
         $this->visibleRoles = $arrVisibleRoleIds;
     }
+
+    public function isCancelationPossible()
+    {
+        if ($this->getValue('dat_rol_id') <= 0)
+        {
+            return false;
+        }
+
+        $begin = new DateTime($this->getValue('dat_begin', DateTime::ISO8601));
+        $now = new DateTime();
+
+        if ($now >= $begin)
+        {
+            return false;
+        }
+
+        $deadlineValue = $this->getValue('dat_deadline', DateTime::ISO8601);
+        if (!empty($deadlineValue)) {
+            $deadline = new DateTime($deadlineValue);
+            if ($now >= $deadline)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isParticipationPossible()
+    {
+        if ($this->getValue('dat_rol_id') <= 0)
+        {
+            return false;
+        }
+
+        $begin = new DateTime($this->getValue('dat_begin', DateTime::ISO8601));
+        $now = new DateTime();
+
+        if ($now >= $begin)
+        {
+            return false;
+        }
+
+        $deadlineValue = $this->getValue('dat_deadline', DateTime::ISO8601);
+        if (!empty($deadlineValue) && $this->getValue('dat_late_registration') == false)
+        {
+            $deadline = new DateTime($deadlineValue);
+            if ($now >= $deadline)
+            {
+                return false;
+            }
+        }
+
+        if($this->getValue('dat_max_members'))
+        {
+            // Check limit of participants
+            $participants = new Participants($this->db, $this->getValue('dat_rol_id'));
+            if($participants->getCount() >= $this->getValue('dat_max_members'))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

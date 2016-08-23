@@ -454,35 +454,27 @@ else
         {
             if($row['member_date_role'] > 0)
             {
-                $buttonURL = $g_root_path.'/adm_program/modules/dates/dates_function.php?mode=4&amp;dat_id='.$date->getValue('dat_id');
+                 if($date->isCancelationPossible())
+                 {
+                    $buttonURL = $g_root_path.'/adm_program/modules/dates/dates_function.php?mode=4&amp;dat_id='.$date->getValue('dat_id');
 
-                if ($getView === 'detail')
-                {
-                    $outputButtonParticipation = '
-                        <button class="btn btn-default" onclick="window.location.href=\''.$buttonURL.'\'">
-                            <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" />'.$gL10n->get('DAT_CANCEL').'</button>';
-                }
-                else
-                {
-                    $outputButtonParticipation = '
-                        <a class="admidio-icon-link" href="'.$buttonURL.'">
-                            <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" title="'.$gL10n->get('DAT_CANCEL').'" /></a>';
-                }
+                    if ($getView === 'detail')
+                    {
+                        $outputButtonParticipation = '
+                            <button class="btn btn-default" onclick="window.location.href=\''.$buttonURL.'\'">
+                                <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" />'.$gL10n->get('DAT_CANCEL').'</button>';
+                    }
+                    else
+                    {
+                        $outputButtonParticipation = '
+                            <a class="admidio-icon-link" href="'.$buttonURL.'">
+                                <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" title="'.$gL10n->get('DAT_CANCEL').'" /></a>';
+                    }
+                 }
             }
             else
             {
-                $participationPossible = true;
-
-                if($date->getValue('dat_max_members'))
-                {
-                    // Check limit of participants
-                    if($participants->getCount($date->getValue('dat_rol_id')) >= $date->getValue('dat_max_members'))
-                    {
-                        $participationPossible = false;
-                    }
-                }
-
-                if($participationPossible)
+                if($date->isParticipationPossible())
                 {
                     $buttonURL = $g_root_path.'/adm_program/modules/dates/dates_function.php?mode=3&amp;dat_id='.$date->getValue('dat_id');
 
