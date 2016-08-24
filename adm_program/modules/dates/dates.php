@@ -500,10 +500,6 @@ else
                                 <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" title="'.$gL10n->get('DAT_ATTEND').'" /></a>';
                     }
                 }
-                else
-                {
-                    $outputButtonParticipation = $gL10n->get('DAT_REGISTRATION_NOT_POSSIBLE');
-                }
             }
 
             // Link to participants list
