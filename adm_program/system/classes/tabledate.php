@@ -417,6 +417,10 @@ class TableDate extends TableAccess
         $this->visibleRoles = $arrVisibleRoleIds;
     }
 
+    /**
+     * Checks if cancelation is still possible
+     * @return bool
+     */
     public function isCancelationPossible()
     {
         if ($this->getValue('dat_rol_id') <= 0)
@@ -432,7 +436,7 @@ class TableDate extends TableAccess
             return false;
         }
 
-        $deadlineValue = $this->getValue('dat_deadline', DateTime::ISO8601);
+        $deadlineValue = $this->getValue('dat_deadline_cancelation', DateTime::ISO8601);
         if (!empty($deadlineValue)) {
             $deadline = new DateTime($deadlineValue);
             if ($now >= $deadline)
@@ -444,6 +448,10 @@ class TableDate extends TableAccess
         return true;
     }
 
+    /**
+     * Checks if participation is still possible
+     * @return bool
+     */
     public function isParticipationPossible()
     {
         if ($this->getValue('dat_rol_id') <= 0)
@@ -459,8 +467,8 @@ class TableDate extends TableAccess
             return false;
         }
 
-        $deadlineValue = $this->getValue('dat_deadline', DateTime::ISO8601);
-        if (!empty($deadlineValue) && $this->getValue('dat_late_registration') == false)
+        $deadlineValue = $this->getValue('dat_deadline_participation', DateTime::ISO8601);
+        if (!empty($deadlineValue))
         {
             $deadline = new DateTime($deadlineValue);
             if ($now >= $deadline)

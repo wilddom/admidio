@@ -238,39 +238,51 @@ if($getMode === 1 || $getMode === 5)  // Neuen Termin anlegen/aendern
         $_POST['dat_max_members'] = 0;
     }
 
-    if(!isset($_POST['dat_late_registration']))
-    {
-        $_POST['dat_late_registration'] = 0;
-    }
-
     if($_POST['date_registration_possible'] == 1)
     {
-        if(strlen($_POST['date_deadline_time']) === 0)
+        if(strlen($_POST['date_deadline_participation_time']) === 0)
         {
             $midnightDateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-01 00:00:00');
-            $_POST['date_deadline_time'] = $midnightDateTime->format($gPreferences['system_time']);
+            $_POST['date_deadline_participation_time'] = $midnightDateTime->format($gPreferences['system_time']);
+        }
+        $deadlineParticipationDateTime = DateTime::createFromFormat($gPreferences['system_date'].' '.$gPreferences['system_time'], $_POST['date_deadline_participation'].' '.$_POST['date_deadline_participation_time']);
+        if(!$deadlineParticipationDateTime)
+        {
+            $deadlineParticipationDateTime = DateTime::createFromFormat($gPreferences['system_date'], $_POST['date_deadline_participation']);
         }
 
-        $deadlineDateTime = DateTime::createFromFormat($gPreferences['system_date'].' '.$gPreferences['system_time'], $_POST['date_deadline'].' '.$_POST['date_deadline_time']);
-        if(!$deadlineDateTime)
+        if(!$deadlineParticipationDateTime || $deadlineParticipationDateTime > $startDateTime)
         {
-            $deadlineDateTime = DateTime::createFromFormat($gPreferences['system_date'], $_POST['date_deadline']);
-        }
-
-        if(!$deadlineDateTime || $deadlineDateTime > $startDateTime)
-        {
-            $date->setValue('dat_deadline', null);
+            $date->setValue('dat_deadline_participation', null);
         }
         else
         {
-            $date->setValue('dat_deadline', $deadlineDateTime->format('Y-m-d H:i:s'));
+            $date->setValue('dat_deadline_participation', $deadlineParticipationDateTime->format('Y-m-d H:i:s'));
         }
 
-        // now write date and time with database format to date object
+        if(strlen($_POST['date_deadline_cancelation_time']) === 0)
+        {
+            $midnightDateTime = DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-01 00:00:00');
+            $_POST['date_deadline_cancelation_time'] = $midnightDateTime->format($gPreferences['system_time']);
+        }
+        $deadlineCancelationDateTime = DateTime::createFromFormat($gPreferences['system_date'].' '.$gPreferences['system_time'], $_POST['date_deadline_cancelation'].' '.$_POST['date_deadline_cancelation_time']);
+        if(!$deadlineCancelationDateTime)
+        {
+            $deadlineCancelationDateTime = DateTime::createFromFormat($gPreferences['system_date'], $_POST['date_deadline_cancelation']);
+        }
+
+        if(!$deadlineCancelationDateTime || $deadlineCancelationDateTime > $startDateTime)
+        {
+            $date->setValue('dat_deadline_cancelation', null);
+        }
+        else
+        {
+            $date->setValue('dat_deadline_cancelation', $deadlineCancelationDateTime->format('Y-m-d H:i:s'));
+        }
     }
     else {
-        $date->setValue('dat_deadline', null);
-        $_POST['dat_late_registration'] = 0;
+        $date->setValue('dat_deadline_participation', null);
+        $date->setValue('dat_deadline_cancelation', null);
     }
 
     // make html in description secure

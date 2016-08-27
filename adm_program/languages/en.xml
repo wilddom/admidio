@@ -46,6 +46,8 @@
   <string name="DAT_DATE">Event</string>
   <string name="DAT_DATES">Events</string>
   <string name="DAT_DATES_DESC">You are able to create and edit events here. Users can register for this events.</string>
+  <string name="DAT_DEADLINE_PARTICIPATION">Participation until</string>
+  <string name="DAT_DEADLINE_CANCELATION">Cancelation until</string>
   <string name="DAT_EDIT_CALENDAR_DESC">Here you can create and edit calendars.</string>
   <string name="DAT_EDIT_ROOMS">Edit rooms</string>
   <string name="DAT_EDIT_ROOMS_DESC">Here you can create and edit rooms for events.</string>

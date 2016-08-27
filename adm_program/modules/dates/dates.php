@@ -294,7 +294,8 @@ else
         $outputLinkRoom      = '';
         $outputNumberMembers = '';
         $outputNumberLeaders = '';
-        $outputDeadline      = '';
+        $outputDeadlineParticipation = '';
+        $outputDeadlineCancelation = '';
         $dateElements        = array();
         $participantsArray   = array();
 
@@ -438,15 +439,23 @@ else
             }
         }
 
-        if(!empty($date->getValue('dat_deadline')))
+        if(!empty($date->getValue('dat_deadline_participation')))
         {
-            if ($date->getValue('dat_all_day') == 0)
+            $deadlineFormat = $gPreferences['system_date'].' '.$gPreferences['system_time'];
+            if ($date->getValue('dat_all_day') != 0)
             {
-                $outputDeadline = $date->getValue('dat_deadline', $gPreferences['system_date'].' '.$gPreferences['system_time']);
+                $deadlineFormat = $gPreferences['system_date'];
             }
-            else {
-                $outputDeadline = $date->getValue('dat_deadline', $gPreferences['system_date']);
+            $outputDeadlineParticipation = $date->getValue('dat_deadline_participation', $deadlineFormat);
+        }
+        if(!empty($date->getValue('dat_deadline_cancelation')))
+        {
+            $deadlineFormat = $gPreferences['system_date'].' '.$gPreferences['system_time'];
+            if ($date->getValue('dat_all_day') != 0)
+            {
+                $deadlineFormat = $gPreferences['system_date'];
             }
+            $outputDeadlineCancelation = $date->getValue('dat_deadline_cancelation', $deadlineFormat);
         }
 
         // Links for the participation only in html mode
@@ -584,9 +593,13 @@ else
             {
                 $dateElements[] = array($gL10n->get('SYS_ROOM'), $outputLinkRoom);
             }
-            if($outputDeadline !== '')
+            if($outputDeadlineParticipation !== '')
             {
-                $dateElements[] = array($gL10n->get('DAT_DEADLINE'), '<strong>'.$outputDeadline.'</strong>');
+                $dateElements[] = array($gL10n->get('DAT_DEADLINE_PARTICIPATION'), '<strong>'.$outputDeadlineParticipation.'</strong>');
+            }
+            if($outputDeadlineCancelation !== '')
+            {
+                $dateElements[] = array($gL10n->get('DAT_DEADLINE_CANCELATION'), '<strong>'.$outputDeadlineCancelation.'</strong>');
             }
             if($outputNumberLeaders !== '')
             {

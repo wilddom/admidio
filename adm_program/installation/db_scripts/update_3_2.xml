@@ -102,8 +102,8 @@
         references %PREFIX%_users (usr_id) on delete set null on update restrict</step>
     <step id="340">ComponentUpdate::updateStepInstallDefaultUserRelationTypes</step>
 
-    <step id="350">alter table %PREFIX%_dates add dat_deadline timestamp null default null after dat_max_members</step>
-    <step id="360">alter table %PREFIX%_dates add dat_late_registration boolean not null default '0' after dat_deadline</step>
+    <step id="350">alter table %PREFIX%_dates add dat_deadline_participation timestamp null default null after dat_max_members</step>
+    <step id="360">alter table %PREFIX%_dates add dat_deadline_cancelation boolean not null default '0' after dat_deadline_participation</step>
 
     <step>stop</step>
 </update>
