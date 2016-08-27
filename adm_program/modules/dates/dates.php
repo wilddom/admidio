@@ -124,6 +124,27 @@ if($getViewMode === 'html')
         $("#menu_item_print_view").click(function () {
             window.open("'.$g_root_path.'/adm_program/modules/dates/dates.php?view_mode=print&view='.$getView.'&mode='.$getMode.'&headline='.$getHeadline.'&cat_id='.$getCatId.'&date_from='.$dates->getParameter('dateStartFormatEnglish').'&date_to='.$dates->getParameter('dateEndFormatEnglish').'", "_blank");
         });', true);
+    $page->addJavascript('
+                 $("div.admidio-content").on({
+                     "mouseenter": function() {
+                         if ( $("span", this).length ) {
+                             var width = $(this).outerWidth();
+                             $("span", this).text($("img.collapse", this).attr("alt"));
+                             if( $(this).outerWidth() > width ) {
+                                 width = $(this).outerWidth();
+                             }
+                             $(this).css("width", width);
+                         }
+                         $("img:not(.collapse)", this).hide();
+                         $("img.collapse", this).show();
+                     },
+                     "mouseleave": function() {
+                         $("img:not(.collapse)", this).show();
+                         $("img.collapse", this).hide();
+                         $("span", this).text($("img:not(.collapse)", this).attr("alt"));
+                     },
+                 }, ":button:has(img:not(.collapse)):has(img.collapse), a:has(img:not(.collapse)):has(img.collapse)");
+                 ', true);
 
     // If default view mode is set to compact we need a back navigation if one date is selected for detail view
     if($getId > 0)
@@ -465,20 +486,39 @@ else
             {
                  if($date->isCancelationPossible())
                  {
-                    $buttonURL = $g_root_path.'/adm_program/modules/dates/dates_function.php?mode=4&amp;dat_id='.$date->getValue('dat_id');
+                     $buttonURL = $g_root_path.'/adm_program/modules/dates/dates_function.php?mode=4&amp;dat_id='.$date->getValue('dat_id');
 
-                    if ($getView === 'detail')
-                    {
-                        $outputButtonParticipation = '
-                            <button class="btn btn-default" onclick="window.location.href=\''.$buttonURL.'\'">
-                                <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" />'.$gL10n->get('DAT_CANCEL').'</button>';
-                    }
-                    else
-                    {
-                        $outputButtonParticipation = '
-                            <a class="admidio-icon-link" href="'.$buttonURL.'">
-                                <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" title="'.$gL10n->get('DAT_CANCEL').'" /></a>';
-                    }
+                     if ($getView === 'detail')
+                     {
+                         $outputButtonParticipation = '
+                             <button class="btn btn-default" onclick="window.location.href=\''.$buttonURL.'\'">
+                                 <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTENDING').'" />
+                                 <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" class="collapse" />
+                                 <span>'.$gL10n->get('DAT_ATTENDING').'</span>
+                             </button>';
+                     }
+                     else
+                     {
+                         $outputButtonParticipation = '
+                             <a class="admidio-icon-link" href="'.$buttonURL.'">
+                                 <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTENDING').'" title="'.$gL10n->get('DAT_ATTENDING').'" />
+                                 <img src="'.THEME_PATH.'/icons/no.png" alt="'.$gL10n->get('DAT_CANCEL').'" title="'.$gL10n->get('DAT_CANCEL').'" class="collapse" />
+                             </a>';
+                     }
+                 }
+                 else {
+                     if ($getView === 'detail')
+                     {
+                         $outputButtonParticipation = '
+                             <button class="btn btn-default" disabled="disabled">
+                                 <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTENDING').'" />
+                                 <span>'.$gL10n->get('DAT_ATTENDING').'</span>
+                             </button>';
+                     }
+                     else
+                     {
+                         $outputButtonParticipation = '<div class="admidio-icon-link"><img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTENDING').'" title="'.$gL10n->get('DAT_ATTENDING').'" data-toggle="tooltip" data-placement="top" /></div>';
+                     }
                  }
             }
             else
@@ -491,13 +531,18 @@ else
                     {
                         $outputButtonParticipation = '
                             <button class="btn btn-default" onclick="window.location.href=\''.$buttonURL.'\'">
-                                <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" />'.$gL10n->get('DAT_ATTEND').'</button>';
+                                <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" style="opacity: 0.25;" />
+                                <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" class="collapse" />
+                                <span>'.$gL10n->get('DAT_ATTEND').'</span>
+                            </button>';
                     }
                     else
                     {
                         $outputButtonParticipation = '
                             <a class="admidio-icon-link" href="'.$buttonURL.'">
-                                <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" title="'.$gL10n->get('DAT_ATTEND').'" /></a>';
+                                <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" title="'.$gL10n->get('DAT_ATTEND').'" style="opacity: 0.25;" />
+                                <img src="'.THEME_PATH.'/icons/ok.png" alt="'.$gL10n->get('DAT_ATTEND').'" title="'.$gL10n->get('DAT_ATTEND').'" class="collapse" />
+                            </a>';
                     }
                 }
             }
