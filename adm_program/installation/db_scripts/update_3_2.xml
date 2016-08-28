@@ -105,5 +105,10 @@
     <step id="350">alter table %PREFIX%_dates add dat_deadline_participation timestamp null default null after dat_max_members</step>
     <step id="360">alter table %PREFIX%_dates add dat_deadline_cancelation boolean not null default '0' after dat_deadline_participation</step>
 
+    <step id="370" database="mysql">alter table %PREFIX%_members change column `mem_approved` `mem_state` int(10) unsigned not null default 2</step>
+    <step id="380" database="postgresql">alter table %PREFIX%_members rename column mem_approved to mem_state</step>
+    <step id="390" database="postgresql">alter table %PREFIX%_members alter column mem_state type unsigned not null default 2</step>
+    <step id="400">update %PREFIX%_members set mem_state=2 where mem_state=0</step>
+
     <step>stop</step>
 </update>

@@ -446,7 +446,7 @@ create table %PREFIX%_members
     mem_timestamp_create           timestamp     not null default CURRENT_TIMESTAMP,
     mem_usr_id_change              integer       unsigned,
     mem_timestamp_change           timestamp     null default null,
-    mem_approved                   integer       unsigned default null,
+    mem_state                      integer       unsigned not null default 2,
     mem_comment                    varchar(4000),
     mem_count_guests               integer       unsigned not null default '0',
     primary key (mem_id)
