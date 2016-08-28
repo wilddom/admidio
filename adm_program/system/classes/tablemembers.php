@@ -25,6 +25,28 @@
  */
 class TableMembers extends TableAccess
 {
+    const STATE_CANCELED = 0;                ///< Constant for the canceled state
+    const STATE_PARTICIPATION_REQUESTED = 1; ///< Constant for the requested particiption state
+    const STATE_PARTICIPATING = 2;           ///< Constant for the particiption state
+    const STATE_CANCELATION_REQUESTED = 3;   ///< Constant for the requested cancelation
+    const STATE_INVITED = 4;                 ///< Constant for the invited state (not yet confirmed)
+    const ALL_STATES = array(
+        self::STATE_CANCELED,
+        self::STATE_PARTICIPATION_REQUESTED,
+        self::STATE_PARTICIPATING,
+        self::STATE_CANCELATION_REQUESTED,
+        self::STATE_INVITED
+    );                                       ///< Constant for all valid states
+    const ACTIVE_STATES = array(
+        self::STATE_PARTICIPATING,
+        self::STATE_CANCELATION_REQUESTED,
+        self::STATE_INVITED
+    );                                       ///< Constant for all active states
+    const INACTIVE_STATES = array(
+        self::STATE_CANCELED,
+        self::STATE_PARTICIPATION_REQUESTED
+    );                                       ///< Constant for all inactive states
+
     /**
      * Constructor that will create an object of a recordset of the table adm_members.
      * If the id is set than the specific membership will be loaded.
@@ -136,6 +158,7 @@ class TableMembers extends TableAccess
             }
 
             $this->setValue('mem_end', DATE_MAX);
+            $this->setValue('mem_state', self::STATE_PARTICIPATING);
 
             if($this->columnsValueChanged)
             {
@@ -192,7 +215,8 @@ class TableMembers extends TableAccess
                               FROM '.TBL_MEMBERS.'
                              WHERE mem_rol_id  = '.$this->getValue('mem_rol_id').'
                                AND mem_usr_id <> '.$this->getValue('mem_usr_id').'
-                               AND \''.DATE_NOW.'\' BETWEEN mem_begin AND mem_end ';
+                               AND \''.DATE_NOW.'\' BETWEEN mem_begin AND mem_end
+                               AND mem_state IN('.implode(',', self::ACTIVE_STATES).')';
                     $memberStatement = $this->db->query($sql);
 
                     if($memberStatement->rowCount() === 0)
@@ -210,6 +234,7 @@ class TableMembers extends TableAccess
                 else
                 {
                     $this->setValue('mem_end', $newEndDate);
+                    $this->setValue('mem_state', self::STATE_CANCELED);
 
                     // stop leader
                     if($this->getValue('mem_leader') == 1)
@@ -229,5 +254,9 @@ class TableMembers extends TableAccess
             }
         }
         return false;
+    }
+
+    public static function isValidState($state) {
+        return in_array($state, self::ALL_STATES);
     }
 }

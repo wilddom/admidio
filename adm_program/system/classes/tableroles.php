@@ -138,7 +138,8 @@ class TableRoles extends TableAccess
                      WHERE mem_rol_id = '.$this->getValue('rol_id').'
                        AND mem_leader = 1
                        AND mem_begin <= \''.DATE_NOW.'\'
-                       AND mem_end    > \''.DATE_NOW.'\'';
+                       AND mem_end    > \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
             $countMembersStatement = $this->db->query($sql);
 
             $this->countLeaders = (int) $countMembersStatement->fetchColumn();
@@ -161,7 +162,8 @@ class TableRoles extends TableAccess
                        AND mem_usr_id != '.$exceptUserId.'
                        AND mem_leader  = 0
                        AND mem_begin  <= \''.DATE_NOW.'\'
-                       AND mem_end     > \''.DATE_NOW.'\'';
+                       AND mem_end     > \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
             $countMembersStatement = $this->db->query($sql);
 
             $this->countMembers = (int) $countMembersStatement->fetchColumn();
@@ -183,7 +185,8 @@ class TableRoles extends TableAccess
                       FROM '.TBL_MEMBERS.'
                      WHERE mem_rol_id = '. $this->getValue('rol_id'). '
                        AND mem_begin <= \''.DATE_NOW.'\'
-                       AND mem_end    > \''.DATE_NOW.'\'';
+                       AND mem_end    > \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
             if(!$countLeaders)
             {
                 $sql .= ' AND mem_leader = 0 ';
@@ -349,7 +352,8 @@ class TableRoles extends TableAccess
                   FROM '.TBL_MEMBERS.'
                  WHERE mem_rol_id = '.$this->getValue('rol_id').'
                    AND (  mem_begin > \''.DATE_NOW.'\'
-                       OR mem_end   < \''.DATE_NOW.'\')';
+                       OR mem_end   < \''.DATE_NOW.'\'
+                       OR mem_state IN('.implode(',', TableMembers::INACTIVE_STATES).') )';
         $countMembersStatement = $this->db->query($sql);
 
         return $countMembersStatement->fetchColumn() > 0;

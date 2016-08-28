@@ -153,6 +153,7 @@ if($gCurrentUser->manageRoles())
                AND mem_usr_id  = '.$getUserId.'
                AND mem_begin  <= \''.DATE_NOW.'\'
                AND mem_end     > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
              WHERE rol_valid   = 1
                AND rol_visible = 1
                AND (  cat_org_id = '. $gCurrentOrganization->getValue('org_id'). '
@@ -174,9 +175,11 @@ else
                AND mgl.mem_usr_id = '.$getUserId.'
                AND mgl.mem_begin <= \''.DATE_NOW.'\'
                AND mgl.mem_end    > \''.DATE_NOW.'\'
+               AND mg.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
              WHERE bm.mem_usr_id  = '. $gCurrentUser->getValue('usr_id'). '
                AND bm.mem_begin  <= \''.DATE_NOW.'\'
                AND bm.mem_end     > \''.DATE_NOW.'\'
+               AND bm.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND bm.mem_leader  = 1
                AND rol_leader_rights IN ('.ROLE_LEADER_MEMBERS_ASSIGN.','.ROLE_LEADER_MEMBERS_ASSIGN_EDIT.')
                AND rol_valid      = 1

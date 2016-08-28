@@ -59,6 +59,7 @@ if($getMode !== 1)
                AND cat_org_id <> '. $gCurrentOrganization->getValue('org_id'). '
                AND mem_begin  <= \''.DATE_NOW.'\'
                AND mem_end     > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND mem_usr_id  = '. $getUserId;
     $statement = $gDb->query($sql);
     $otherOrgaCount = $statement->rowCount();
@@ -129,6 +130,7 @@ elseif($getMode === 2)
                    OR cat_org_id IS NULL )
                AND mem_begin <= \''.DATE_NOW.'\'
                AND mem_end    > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND mem_usr_id = '. $getUserId;
     $mglStatement = $gDb->query($sql);
 

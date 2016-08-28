@@ -224,6 +224,7 @@ $sql = 'SELECT usr_id, first_name.usd_value AS first_name, last_name.usd_value A
          WHERE usr_valid  = 1
            AND mem_begin <= \''.DATE_NOW.'\'
            AND mem_end    > \''.DATE_NOW.'\'
+           AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
            AND mem_rol_id IN ('.implode(',', $arrayUniqueRoles).')
       GROUP BY usr_id, first_name.usd_value, last_name.usd_value, email.usd_value
       ORDER BY last_name, first_name';

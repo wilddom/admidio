@@ -137,6 +137,7 @@ $sql = '(SELECT COUNT(*) AS count_this
           WHERE mem_usr_id  = usr_id
             AND mem_begin  <= \''.DATE_NOW.'\'
             AND mem_end     > \''.DATE_NOW.'\'
+            AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
             AND rol_valid = 1
             AND cat_name_intern <> \'CONFIRMATION_OF_PARTICIPATION\'
             AND (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
@@ -166,6 +167,7 @@ if($gCurrentOrganization->countAllRecords() > 1)
           WHERE mem_usr_id  = usr_id
             AND mem_begin  <= \''.DATE_NOW.'\'
             AND mem_end     > \''.DATE_NOW.'\'
+            AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
             AND rol_valid = 1
             AND cat_name_intern <> \'CONFIRMATION_OF_PARTICIPATION\'
             AND cat_org_id <> '.$gCurrentOrganization->getValue('org_id').')';

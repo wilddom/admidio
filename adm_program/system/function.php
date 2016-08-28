@@ -84,6 +84,7 @@ function hasRole($roleName, $userId = 0)
              WHERE mem_usr_id = '.$userId.'
                AND mem_begin <= \''.DATE_NOW.'\'
                AND mem_end    > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND rol_name   = \''.$roleName.'\'
                AND rol_valid  = 1
                AND (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
@@ -113,6 +114,7 @@ function isMember($userId)
                  WHERE mem_usr_id = '.$userId.'
                    AND mem_begin <= \''.DATE_NOW.'\'
                    AND mem_end    > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                    AND rol_valid  = 1
                    AND (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
                        OR cat_org_id IS NULL )';
@@ -149,6 +151,7 @@ function isGroupLeader($userId, $roleId = 0)
                  WHERE mem_usr_id = '.$userId.'
                    AND mem_begin <= \''.DATE_NOW.'\'
                    AND mem_end    > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                    AND mem_leader = 1
                    AND rol_valid  = 1
                    AND (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'

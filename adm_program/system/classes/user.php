@@ -155,6 +155,7 @@ class User extends TableAccess
                        AND mem_usr_id = '.$this->getValue('usr_id').'
                        AND mem_begin <= \''.DATE_NOW.'\'
                        AND mem_end    > \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                      WHERE rol_valid  = 1
                        AND (  cat_org_id = '.$this->organizationId.'
                            OR cat_org_id IS NULL )';
@@ -356,6 +357,7 @@ class User extends TableAccess
                    AND rol_valid  = 1
                    AND mem_begin <= \''.DATE_NOW.'\'
                    AND mem_end    > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                    AND cat_org_id = '.$this->organizationId;
         $userStatement = $this->db->query($sql);
         $userRow = $userStatement->fetch();
@@ -972,6 +974,7 @@ class User extends TableAccess
                  WHERE rol_valid  = 1
                    AND mem_begin <= \''.DATE_NOW.'\'
                    AND mem_end    > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                    AND mem_usr_id = '.$user->getValue('usr_id').'
                    AND (  cat_org_id = '.$this->organizationId.'
                        OR cat_org_id IS NULL ) ';
@@ -1308,6 +1311,7 @@ class User extends TableAccess
                    AND mem_usr_id = '.$this->getValue('usr_id').'
                    AND mem_begin <= \''.$endDate.'\'
                    AND mem_end   >= \''.$startDate.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
               ORDER BY mem_begin ASC';
         }
         else
@@ -1321,6 +1325,7 @@ class User extends TableAccess
                        AND mem_usr_id = '.$this->getValue('usr_id').'
                        AND mem_begin <= \''.$endDate.'\'
                        AND mem_end   >= \''.$startDate.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                   ORDER BY mem_begin ASC';
         }
         $membershipStatement = $this->db->query($sql);

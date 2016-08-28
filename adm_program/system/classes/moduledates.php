@@ -211,6 +211,7 @@ class ModuleDates extends Modules
                    AND mem.mem_usr_id = '.$gCurrentUser->getValue('usr_id').'
                    AND mem.mem_begin <= \''.DATE_NOW.'\'
                    AND mem.mem_end    > \''.DATE_NOW.'\'
+                   AND mem.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                  WHERE (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
                        OR  (   dat_global = 1
                            AND cat_org_id IN ('.$gCurrentOrganization->getFamilySQL().')
@@ -526,7 +527,8 @@ class ModuleDates extends Modules
                                             FROM '.TBL_MEMBERS.' mem2
                                            WHERE mem2.mem_usr_id = '.$gCurrentUser->getValue('usr_id').'
                                              AND mem2.mem_begin  <= dat_begin
-                                             AND mem2.mem_end    >= dat_end) ) ';
+                                             AND mem2.mem_end    >= dat_end
+                                             AND mem2.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')) ) ';
                     break;
                 case 'maybe_participate':
                     $sqlConditions .= '
@@ -536,7 +538,8 @@ class ModuleDates extends Modules
                                             FROM '.TBL_MEMBERS.' mem2
                                            WHERE mem2.mem_usr_id = '.$gCurrentUser->getValue('usr_id').'
                                              AND mem2.mem_begin  <= dat_begin
-                                             AND mem2.mem_end    >= dat_end) ) ';
+                                             AND mem2.mem_end    >= dat_end
+                                             AND mem2.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')) ) ';
                     break;
                 case 'only_participate':
                     $sqlConditions .= '
@@ -545,7 +548,8 @@ class ModuleDates extends Modules
                                          FROM '.TBL_MEMBERS.' mem2
                                         WHERE mem2.mem_usr_id = '.$gCurrentUser->getValue('usr_id').'
                                           AND mem2.mem_begin  <= dat_begin
-                                          AND mem2.mem_end    >= dat_end) ';
+                                          AND mem2.mem_end    >= dat_end
+                                          AND mem2.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')) ';
                     break;
             }
         }

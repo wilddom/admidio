@@ -210,7 +210,8 @@ class UserRegistration extends User
                            AND usr_valid         = 1
                            AND cat_org_id        = '.$this->organizationId.'
                            AND mem_begin        <= \''.DATE_NOW.'\'
-                           AND mem_end           > \''.DATE_NOW.'\'';
+                           AND mem_end           > \''.DATE_NOW.'\'
+                           AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
                 $emailStatement = $this->db->query($sql);
 
                 while($row = $emailStatement->fetch())

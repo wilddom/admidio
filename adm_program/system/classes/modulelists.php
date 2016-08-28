@@ -196,7 +196,7 @@ class ModuleLists extends Modules
         switch ($this->memberStatus)
         {
             case 'inactive':
-                $sql = ' AND mem_end < \''.DATE_NOW.'\' ';
+                $sql = ' AND (mem_end < \''.DATE_NOW.'\' OR mem_state IN('.implode(',', TableMembers::INACTIVE_STATES).') )';
                 break;
             case 'both':
                 $sql ='';
@@ -204,7 +204,8 @@ class ModuleLists extends Modules
             case 'active':
             default:
                 $sql = ' AND mem_begin <= \''.DATE_NOW.'\'
-                         AND mem_end   >= \''.DATE_NOW.'\' ';
+                         AND mem_end   >= \''.DATE_NOW.'\'
+                         AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
         }
         return $sql;
     }
@@ -276,15 +277,16 @@ class ModuleLists extends Modules
                        (SELECT COUNT(*) AS count
                           FROM '.TBL_MEMBERS.' mem
                          WHERE mem.mem_rol_id = rol.rol_id '.$this->getMemberStatusSql().'
-                           AND mem_leader = 0) AS num_members,
+                           AND mem.mem_leader = 0) AS num_members,
                        (SELECT COUNT(*) AS count
                           FROM '.TBL_MEMBERS.' mem
                          WHERE mem.mem_rol_id = rol.rol_id '.$this->getMemberStatusSql().'
-                           AND mem_leader = 1) AS num_leader,
+                           AND mem.mem_leader = 1) AS num_leader,
                        (SELECT COUNT(*) AS count
                           FROM '.TBL_MEMBERS.' mem
                          WHERE mem.mem_rol_id = rol.rol_id
-                           AND mem_end < \''. DATE_NOW.'\') AS num_former
+                           AND (mem.mem_end < \''. DATE_NOW.'\'
+                                OR mem.mem_state IN('.implode(',', TableMembers::INACTIVE_STATES).')))AS num_former
                   FROM '.TBL_ROLES.' rol
             INNER JOIN '.TBL_CATEGORIES.' cat
                     ON cat_id = rol_cat_id

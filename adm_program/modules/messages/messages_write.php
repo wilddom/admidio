@@ -103,6 +103,7 @@ if ($gValidLogin && $getMsgType === 'PM' && count($gCurrentUser->getAllVisibleRo
                        OR cat_org_id IS NULL )
                    AND mem_begin <= \''.DATE_NOW.'\'
                    AND mem_end   >= \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                    AND usr_id <> '.$gCurrentUser->getValue('usr_id').'
                    AND usr_valid  = 1
                    AND usr_login_name IS NOT NULL
@@ -378,6 +379,7 @@ elseif (!isset($messageStatement))
                        AND first_name.usd_usf_id = '. $gProfileFields->getProperty('FIRST_NAME', 'usf_id'). '
                      WHERE rol_id IN ('.implode(',', $listVisibleRoleArray).')
                        AND mem_begin <=  \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                        AND usr_id <> '.$gCurrentUser->getValue('usr_id').
                            $sqlUserIds.'
                        AND usr_valid = 1

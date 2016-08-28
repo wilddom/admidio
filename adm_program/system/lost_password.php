@@ -59,6 +59,7 @@ if(!empty($_POST['recipient_email']))
                        AND usr_valid  = 1
                        AND mem_begin <= \''.DATE_NOW.'\'
                        AND mem_end    > \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                        AND (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
                            OR cat_org_id IS NULL )
                   GROUP BY usr_id';
@@ -81,6 +82,7 @@ if(!empty($_POST['recipient_email']))
                        AND usr_valid  = 1
                        AND mem_begin <= \''.DATE_NOW.'\'
                        AND mem_end    > \''.DATE_NOW.'\'
+                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                        AND (  cat_org_id = '.$gCurrentOrganization->getValue('org_id').'
                            OR cat_org_id IS NULL )
                   GROUP BY usr_id';

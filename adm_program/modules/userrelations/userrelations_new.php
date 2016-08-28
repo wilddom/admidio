@@ -103,6 +103,7 @@ if($gCurrentUser->editUsers())
                    OR cat_org_id IS NULL )
                AND mem_begin <= \''.DATE_NOW.'\'
                AND mem_end   >= \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND usr_valid  = 1
           ORDER BY LAST_NAME.usd_value, FIRST_NAME.usd_value, usr_id';
 }
@@ -129,6 +130,7 @@ else
                                    WHERE mem_usr_id  = '.$gCurrentUser->getValue('usr_id').'
                                      AND mem_begin  <= \''.DATE_NOW.'\'
                                      AND mem_end     > \''.DATE_NOW.'\'
+                                     AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                                      AND mem_leader  = 1
                                      AND rol_valid   = 1
                                      AND rol_visible = 1
@@ -137,6 +139,7 @@ else
                                          OR cat_org_id IS NULL ))
                AND mem_begin <= \''.DATE_NOW.'\'
                AND mem_end   >= \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND usr_valid  = 1
           ORDER BY LAST_NAME.usd_value, FIRST_NAME.usd_value, usr_id';
 }

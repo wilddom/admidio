@@ -155,6 +155,7 @@ $sql = 'SELECT DISTINCT usr_id, usr_login_name,
             ON mem_usr_id = usr_id
            AND mem_begin <= \''.DATE_NOW.'\'
            AND mem_end    > \''.DATE_NOW.'\'
+           AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
     INNER JOIN '.TBL_ROLES.'
             ON mem_rol_id = rol_id
            AND rol_valid  = 1

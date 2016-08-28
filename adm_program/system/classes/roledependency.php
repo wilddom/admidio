@@ -285,7 +285,8 @@ class RoleDependency
                   FROM '.TBL_MEMBERS.
                ' WHERE mem_rol_id = '.$this->roleIdChild.'
                    AND mem_begin <= \''.DATE_NOW.'\'
-                   AND mem_end    > \''.DATE_NOW.'\'';
+                   AND mem_end    > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
         $membershipStatement = $this->db->query($sql);
 
         if ($membershipStatement->rowCount() > 0)

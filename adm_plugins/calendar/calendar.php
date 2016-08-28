@@ -344,6 +344,7 @@ if($plg_geb_aktiv)
                AND rol_id '.$sqlRoleIds.'
                AND mem_begin <= \''.DATE_NOW.'\'
                AND mem_end    > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
           ORDER BY '.$sqlMonthOfBirthday.' ASC, '.$sqlMonthOfBirthday.' ASC, last_name, first_name';
 
     $birthdayStatement = $gDb->query($sql);

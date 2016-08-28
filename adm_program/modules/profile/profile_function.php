@@ -230,7 +230,8 @@ elseif ($getMode === 8)
                   FROM '.TBL_MEMBERS.'
                  WHERE mem_rol_id = '.$getRoleId.'
                    AND mem_begin <= \''.DATE_NOW.'\'
-                   AND mem_end > \''.DATE_NOW.'\'';
+                   AND mem_end > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
         $pdoStatement = $gDb->query($sql);
 
         while($memberUserId = $pdoStatement->fetchColumn())

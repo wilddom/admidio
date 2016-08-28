@@ -165,6 +165,7 @@ $sql = '(SELECT COUNT(*) AS count_this
           WHERE mem_usr_id  = usr_id
             AND mem_begin  <= \''.DATE_NOW.'\'
             AND mem_end     > \''.DATE_NOW.'\'
+            AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                 '.$filterRoleCondition.'
             AND rol_valid = 1
             AND cat_name_intern <> \'CONFIRMATION_OF_PARTICIPATION\'
@@ -235,6 +236,7 @@ $mainSql = 'SELECT DISTINCT usr_id, last_name.usd_value AS last_name, first_name
             ON mem.mem_rol_id  = rol.rol_id
            AND mem.mem_begin  <= \''.DATE_NOW.'\'
            AND mem.mem_end     > \''.DATE_NOW.'\'
+           AND mem.mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
            AND mem.mem_usr_id  = usr_id
          WHERE usr_valid = 1
                '. $memberOfThisOrganizationCondition;

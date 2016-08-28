@@ -118,6 +118,7 @@ if(count($arrayRoles) > 0)
                AND cat_org_id       = '.$gCurrentOrganization->getValue('org_id').'
                AND mem_begin       <= \''.DATE_NOW.'\'
                AND mem_end          > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND usr_valid        = 1
                AND email.usd_usr_id = email.usd_usr_id
           ORDER BY last_name, first_name';

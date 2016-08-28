@@ -31,6 +31,7 @@ function getRolesFromDatabase($userId)
              WHERE mem_usr_id  = '.$userId.'
                AND mem_begin  <= \''.DATE_NOW.'\'
                AND mem_end    >= \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND rol_valid   = 1
                AND rol_visible = 1
                AND (  cat_org_id  = '. $gCurrentOrganization->getValue('org_id'). '
@@ -56,6 +57,7 @@ function getFutureRolesFromDatabase($userId)
                 ON cat_id = rol_cat_id
              WHERE mem_usr_id  = '.$userId.'
                AND mem_begin   > \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND rol_valid   = 1
                AND rol_visible = 1
                AND (  cat_org_id  = '. $gCurrentOrganization->getValue('org_id'). '
@@ -80,7 +82,8 @@ function getFormerRolesFromDatabase($userId)
         INNER JOIN '.TBL_CATEGORIES.'
                 ON cat_id = rol_cat_id
              WHERE mem_usr_id  = '.$userId.'
-               AND mem_end     < \''.DATE_NOW.'\'
+               AND (mem_end     < \''.DATE_NOW.'\'
+               OR mem_state IN('.implode(',', TableMembers::INACTIVE_STATES).'))
                AND rol_valid   = 1
                AND rol_visible = 1
                AND (  cat_org_id  = '. $gCurrentOrganization->getValue('org_id'). '

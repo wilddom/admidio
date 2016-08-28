@@ -550,6 +550,7 @@ if($gPreferences['profile_show_roles'] == 1)
                  WHERE rol_valid  = 1
                    AND mem_begin <= \''.DATE_NOW.'\'
                    AND mem_end    > \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                    AND mem_usr_id = '.$userId.'
                    AND (  cat_org_id = '. $gCurrentOrganization->getValue('org_id'). '
                        OR cat_org_id IS NULL )
@@ -740,6 +741,7 @@ if($gPreferences['profile_show_extern_roles'] == 1
              WHERE mem_usr_id  = '.$userId.'
                AND mem_begin  <= \''.DATE_NOW.'\'
                AND mem_end    >= \''.DATE_NOW.'\'
+               AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')
                AND rol_valid   = 1
                AND rol_visible = 1
                AND org_id     <> '.$gCurrentOrganization->getValue('org_id').'

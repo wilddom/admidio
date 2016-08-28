@@ -191,7 +191,8 @@ if ($getMsgType === 'EMAIL')
                 if($group[1] == 1 && $gPreferences['mail_show_former'] == 1)
                 {
                     // only former members
-                    $sqlConditions = ' AND mem_end < \''.DATE_NOW.'\' ';
+                    $sqlConditions = ' AND (mem_end < \''.DATE_NOW.'\'
+                                       OR mem_state IN('.implode(',', TableMembers::INACTIVE_STATES).')) ';
                 }
                 elseif($group[1] == 2 && $gPreferences['mail_show_former'] == 1)
                 {
@@ -202,7 +203,8 @@ if ($getMsgType === 'EMAIL')
                 {
                     // only active members
                     $sqlConditions = ' AND mem_begin  <= \''.DATE_NOW.'\'
-                                       AND mem_end     > \''.DATE_NOW.'\' ';
+                                       AND mem_end     > \''.DATE_NOW.'\'
+                                       AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).') ';
                 }
 
                 $sql = 'SELECT first_name.usd_value AS first_name, last_name.usd_value AS last_name,

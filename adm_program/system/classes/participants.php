@@ -92,7 +92,8 @@ class Participants
         $sql = 'SELECT DISTINCT mem_usr_id, mem_leader
                   FROM '.TBL_MEMBERS.'
                  WHERE mem_rol_id = '.$this->rolId.'
-                   AND mem_end   >= \''.DATE_NOW.'\'';
+                   AND mem_end   >= \''.DATE_NOW.'\'
+                   AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
         $membersStatement = $this->mDb->query($sql);
 
         // Write all member Id´s and leader status in an array

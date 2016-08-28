@@ -344,10 +344,12 @@ class ListConfiguration extends TableLists
             {
                 $sqlMemberStatus .= 'AND mem_end >= \''.$startDate.' 00:00:00\'';
             }
+            $sqlMemberStatus .= ' AND mem_state IN('.implode(',', TableMembers::ACTIVE_STATES).')';
         }
         elseif ($memberStatus === 1)
         {
-            $sqlMemberStatus = 'AND mem_end < \''.DATE_NOW.'\'';
+            $sqlMemberStatus = 'AND (mem_end < \''.DATE_NOW.'\'';
+            $sqlMemberStatus .= ' OR mem_state IN('.implode(',', TableMembers::INACTIVE_STATES).'))';
         }
 
         $sqlUserJoin = 'INNER JOIN '.TBL_USERS.'
